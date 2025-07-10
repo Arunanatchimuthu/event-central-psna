@@ -47,11 +47,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             ))}
           </select>
         </div>
-
-        {/* Quick Filters */}
-        <button className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium whitespace-nowrap">
-          This Week
-        </button>
       </div>
 
       {/* Quick Category Tags */}

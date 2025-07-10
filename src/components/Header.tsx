@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Bell, User, Menu, X, Calendar, Settings, LogOut } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 interface HeaderProps {
   onNotificationClick: () => void;
@@ -9,12 +10,19 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ onNotificationClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const location = useLocation();
 
   const mockUser = {
     name: "Priya Sharma",
     email: "priya.sharma@student.psnacet.edu.in",
     department: "Computer Science",
     year: "Final Year"
+  };
+
+  const isActive = (path: string) => {
+    if (path === '/' && location.pathname === '/') return true;
+    if (path !== '/' && location.pathname.startsWith(path)) return true;
+    return false;
   };
 
   return (
@@ -24,24 +32,47 @@ export const Header: React.FC<HeaderProps> = ({ onNotificationClick }) => {
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-blue-900">
-                Campus<span className="text-blue-600">Connect</span>
-              </h1>
-              <p className="text-xs text-gray-600">PSNA College of Engineering</p>
+              <Link to="/">
+                <h1 className="text-2xl font-bold text-blue-900">
+                  Campus<span className="text-blue-600">Connect</span>
+                </h1>
+                <p className="text-xs text-gray-600">PSNA College of Engineering</p>
+              </Link>
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a href="#" className="text-blue-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+            <Link 
+              to="/events" 
+              className={`px-3 py-2 rounded-md text-sm font-medium ${
+                isActive('/events') 
+                  ? 'text-blue-900 bg-blue-50' 
+                  : 'text-gray-600 hover:text-blue-600'
+              }`}
+            >
               Events
-            </a>
-            <a href="#" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+            </Link>
+            <Link 
+              to="/clubs" 
+              className={`px-3 py-2 rounded-md text-sm font-medium ${
+                isActive('/clubs') 
+                  ? 'text-blue-900 bg-blue-50' 
+                  : 'text-gray-600 hover:text-blue-600'
+              }`}
+            >
               Clubs
-            </a>
-            <a href="#" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+            </Link>
+            <Link 
+              to="/placements" 
+              className={`px-3 py-2 rounded-md text-sm font-medium ${
+                isActive('/placements') 
+                  ? 'text-blue-900 bg-blue-50' 
+                  : 'text-gray-600 hover:text-blue-600'
+              }`}
+            >
               Placements
-            </a>
+            </Link>
             <a href="#" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
               Resources
             </a>
@@ -111,15 +142,36 @@ export const Header: React.FC<HeaderProps> = ({ onNotificationClick }) => {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
             <div className="space-y-2">
-              <a href="#" className="block px-3 py-2 text-blue-900 font-medium rounded-md">
+              <Link 
+                to="/events" 
+                className={`block px-3 py-2 rounded-md ${
+                  isActive('/events') 
+                    ? 'text-blue-900 bg-blue-50 font-medium' 
+                    : 'text-gray-600 hover:text-blue-600'
+                }`}
+              >
                 Events
-              </a>
-              <a href="#" className="block px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md">
+              </Link>
+              <Link 
+                to="/clubs" 
+                className={`block px-3 py-2 rounded-md ${
+                  isActive('/clubs') 
+                    ? 'text-blue-900 bg-blue-50 font-medium' 
+                    : 'text-gray-600 hover:text-blue-600'
+                }`}
+              >
                 Clubs
-              </a>
-              <a href="#" className="block px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md">
+              </Link>
+              <Link 
+                to="/placements" 
+                className={`block px-3 py-2 rounded-md ${
+                  isActive('/placements') 
+                    ? 'text-blue-900 bg-blue-50 font-medium' 
+                    : 'text-gray-600 hover:text-blue-600'
+                }`}
+              >
                 Placements
-              </a>
+              </Link>
               <a href="#" className="block px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md">
                 Resources
               </a>

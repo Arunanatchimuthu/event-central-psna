@@ -6,6 +6,7 @@ import { SearchBar } from '../components/SearchBar';
 import { QuickActions } from '../components/QuickActions';
 import { NotificationPanel } from '../components/NotificationPanel';
 import { Calendar, Users, BookOpen, Trophy } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const mockEvents = [
   {
@@ -73,9 +74,9 @@ const Index = () => {
   });
 
   const stats = [
-    { icon: Calendar, label: "Upcoming Events", value: "12", color: "text-blue-600" },
-    { icon: Users, label: "Registered Students", value: "1,247", color: "text-green-600" },
-    { icon: BookOpen, label: "Active Clubs", value: "28", color: "text-purple-600" },
+    { icon: Calendar, label: "Upcoming Events", value: "18", color: "text-blue-600" },
+    { icon: Users, label: "Registered Students", value: "2,847", color: "text-green-600" },
+    { icon: BookOpen, label: "Active Clubs", value: "15", color: "text-purple-600" },
     { icon: Trophy, label: "This Month", value: "8", color: "text-orange-600" }
   ];
 
@@ -94,9 +95,12 @@ const Index = () => {
               Your one-stop portal for all PSNA College events and opportunities
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+              <Link 
+                to="/events"
+                className="bg-white text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+              >
                 View All Events
-              </button>
+              </Link>
               <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-colors">
                 Sign Up for Updates
               </button>
@@ -173,9 +177,9 @@ const Index = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
               <ul className="space-y-2 text-blue-200">
-                <li><a href="#" className="hover:text-white">Events Calendar</a></li>
-                <li><a href="#" className="hover:text-white">Student Clubs</a></li>
-                <li><a href="#" className="hover:text-white">Placement Portal</a></li>
+                <li><Link to="/events" className="hover:text-white">Events Calendar</Link></li>
+                <li><Link to="/clubs" className="hover:text-white">Student Clubs</Link></li>
+                <li><Link to="/placements" className="hover:text-white">Placement Portal</Link></li>
                 <li><a href="#" className="hover:text-white">Resources</a></li>
               </ul>
             </div>
