@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, User, Mail, Phone, GraduationCap, Hash } from 'lucide-react';
 
 interface RegistrationFormProps {
@@ -24,13 +23,32 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ isOpen, onCl
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
 
+  useEffect(() => {
+    // Load EmailJS script
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+    script.onload = () => {
+      if (window.emailjs) {
+        window.emailjs.init('DDlECGfrvZcY5n6xM');
+      }
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitMessage('');
 
     try {
+      console.log('Submitting form data:', formData);
+
       // Send to Google Apps Script
-      const response = await fetch('https://script.google.com/macros/s/AKfycbxm9XJBwBeLQNQUoyyZrgdkcAaYOdVDvKrrPQeyMQ/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbx5wX95D6-5jSG8caH2jrEn-EO0Rg_H2kIK9zNJ7iV6TqX-XrBZh-VK66tPZZi3vi0/exec', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,11 +60,12 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ isOpen, onCl
         }),
       });
 
-      if (response.ok) {
-        // Send confirmation email using EmailJS
-        const emailJS = (window as any).emailjs;
-        if (emailJS) {
-          await emailJS.send(
+      console.log('Google Apps Script response:', response);
+
+      // Send confirmation email using EmailJS
+      if (window.emailjs) {
+        try {
+          await window.emailjs.send(
             'service_m9hmg2b',
             'template_zas8xnr',
             {
@@ -59,28 +78,30 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ isOpen, onCl
             },
             'DDlECGfrvZcY5n6xM'
           );
+          console.log('Email sent successfully');
+        } catch (emailError) {
+          console.error('Email sending failed:', emailError);
         }
-
-        setSubmitMessage('Registration successful! You will receive a confirmation email shortly.');
-        setTimeout(() => {
-          onClose();
-          setSubmitMessage('');
-          setFormData({
-            fullName: '',
-            email: '',
-            phone: '',
-            department: '',
-            year: '',
-            rollNumber: '',
-            skills: '',
-            interestedArea: '',
-            internExperience: ''
-          });
-        }, 2000);
-      } else {
-        setSubmitMessage('Registration failed. Please try again.');
       }
+
+      setSubmitMessage('Registration successful! You will receive a confirmation email shortly.');
+      setTimeout(() => {
+        onClose();
+        setSubmitMessage('');
+        setFormData({
+          fullName: '',
+          email: '',
+          phone: '',
+          department: '',
+          year: '',
+          rollNumber: '',
+          skills: '',
+          interestedArea: '',
+          internExperience: ''
+        });
+      }, 2000);
     } catch (error) {
+      console.error('Registration error:', error);
       setSubmitMessage('Registration failed. Please try again.');
     }
 
@@ -279,9 +300,13 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ isOpen, onCl
           </button>
         </form>
       </div>
-
-      {/* EmailJS Script */}
-      <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     </div>
   );
 };
+
+// Declare global emailjs for TypeScript
+declare global {
+  interface Window {
+    emailjs: any;
+  }
+}

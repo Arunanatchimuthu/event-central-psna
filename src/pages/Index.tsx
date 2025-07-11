@@ -6,8 +6,10 @@ import { QuickActions } from '../components/QuickActions';
 import { NotificationPanel } from '../components/NotificationPanel';
 import { RegistrationForm } from '../components/RegistrationForm';
 import { EventDetails } from '../components/EventDetails';
+import { AuthModal } from '../components/AuthModal';
 import { Calendar, Users, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const mockEvents = [
   {
@@ -68,9 +70,9 @@ const Index = () => {
   const [registrationFormType, setRegistrationFormType] = useState<'event' | 'placement'>('event');
   const [showEventDetails, setShowEventDetails] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // Mock user state - in real app, this would come from authentication
-  const [isUserSignedIn, setIsUserSignedIn] = useState(false);
+  const { user } = useAuth();
 
   const categories = ['all', 'Workshop', 'Placement', 'Competition', 'Cultural'];
 
@@ -118,9 +120,9 @@ const Index = () => {
               >
                 View All Events
               </Link>
-              {!isUserSignedIn && (
+              {!user && (
                 <button 
-                  onClick={() => setIsUserSignedIn(true)}
+                  onClick={() => setShowAuthModal(true)}
                   className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-colors"
                 >
                   Sign Up for Updates
@@ -240,6 +242,12 @@ const Index = () => {
           setShowEventDetails(false);
           handleRegisterClick('event');
         }}
+      />
+
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        initialMode="signup"
       />
     </div>
   );
