@@ -44,25 +44,31 @@ export const Header: React.FC<HeaderProps> = ({ onNotificationClick }) => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             <Link 
-              to="/events" 
+              to="/" 
               className={`px-3 py-2 rounded-md text-sm font-medium ${
-                isActive('/events') 
+                isActive('/') 
                   ? 'text-blue-900 bg-blue-50' 
                   : 'text-gray-600 hover:text-blue-600'
               }`}
+            >
+              Home
+            </Link>
+            <a 
+              href="https://www.psnacet.edu.in/Event-Media/Event-Full.php#" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
             >
               Events
-            </Link>
-            <Link 
-              to="/clubs" 
-              className={`px-3 py-2 rounded-md text-sm font-medium ${
-                isActive('/clubs') 
-                  ? 'text-blue-900 bg-blue-50' 
-                  : 'text-gray-600 hover:text-blue-600'
-              }`}
+            </a>
+            <a 
+              href="https://www.psnacet.edu.in/Club/Club.php" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
             >
               Clubs
-            </Link>
+            </a>
             <Link 
               to="/placements" 
               className={`px-3 py-2 rounded-md text-sm font-medium ${
@@ -73,7 +79,12 @@ export const Header: React.FC<HeaderProps> = ({ onNotificationClick }) => {
             >
               Placements
             </Link>
-            <a href="#" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+            <a 
+              href="https://www.psnacet.edu.in/Library/Non-Books-Materials.php" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+            >
               Resources
             </a>
           </nav>
@@ -112,18 +123,18 @@ export const Header: React.FC<HeaderProps> = ({ onNotificationClick }) => {
                     <p className="text-sm text-gray-600">{mockUser.email}</p>
                     <p className="text-xs text-blue-600">{mockUser.department} - {mockUser.year}</p>
                   </div>
-                  <a href="#" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  <Link to="/my-events" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     <Calendar className="w-4 h-4 mr-3" />
                     My Events
-                  </a>
-                  <a href="#" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  </Link>
+                  <Link to="/settings" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     <Settings className="w-4 h-4 mr-3" />
                     Settings
-                  </a>
-                  <a href="#" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  </Link>
+                  <button className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
                     <LogOut className="w-4 h-4 mr-3" />
                     Sign Out
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
@@ -143,25 +154,31 @@ export const Header: React.FC<HeaderProps> = ({ onNotificationClick }) => {
           <div className="md:hidden py-4 border-t">
             <div className="space-y-2">
               <Link 
-                to="/events" 
+                to="/" 
                 className={`block px-3 py-2 rounded-md ${
-                  isActive('/events') 
+                  isActive('/') 
                     ? 'text-blue-900 bg-blue-50 font-medium' 
                     : 'text-gray-600 hover:text-blue-600'
                 }`}
+              >
+                Home
+              </Link>
+              <a 
+                href="https://www.psnacet.edu.in/Event-Media/Event-Full.php#" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md"
               >
                 Events
-              </Link>
-              <Link 
-                to="/clubs" 
-                className={`block px-3 py-2 rounded-md ${
-                  isActive('/clubs') 
-                    ? 'text-blue-900 bg-blue-50 font-medium' 
-                    : 'text-gray-600 hover:text-blue-600'
-                }`}
+              </a>
+              <a 
+                href="https://www.psnacet.edu.in/Club/Club.php" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md"
               >
                 Clubs
-              </Link>
+              </a>
               <Link 
                 to="/placements" 
                 className={`block px-3 py-2 rounded-md ${
@@ -172,7 +189,12 @@ export const Header: React.FC<HeaderProps> = ({ onNotificationClick }) => {
               >
                 Placements
               </Link>
-              <a href="#" className="block px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md">
+              <a 
+                href="https://www.psnacet.edu.in/Library/Non-Books-Materials.php" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md"
+              >
                 Resources
               </a>
             </div>

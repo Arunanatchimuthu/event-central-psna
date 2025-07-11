@@ -17,9 +17,11 @@ interface Event {
 
 interface EventCardProps {
   event: Event;
+  onRegister?: () => void;
+  onViewDetails?: () => void;
 }
 
-export const EventCard: React.FC<EventCardProps> = ({ event }) => {
+export const EventCard: React.FC<EventCardProps> = ({ event, onRegister, onViewDetails }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
@@ -92,11 +94,17 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <button className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center">
+            <button 
+              onClick={onRegister}
+              className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center"
+            >
               <Users className="w-4 h-4 mr-2" />
               Register Now
             </button>
-            <button className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700">
+            <button 
+              onClick={onViewDetails}
+              className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700"
+            >
               <ExternalLink className="w-4 h-4 mr-2" />
               View Details
             </button>

@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { NotificationPanel } from '../components/NotificationPanel';
+import { RegistrationForm } from '../components/RegistrationForm';
 import { Building, Users, Calendar, TrendingUp, MapPin, Clock } from 'lucide-react';
 
 const placementStats = [
@@ -58,6 +58,11 @@ const topRecruiters = [
 
 const Placements = () => {
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+
+  const handleApplyClick = () => {
+    setShowRegistrationForm(true);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -130,7 +135,10 @@ const Placements = () => {
                           </p>
                         </div>
                         
-                        <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                        <button 
+                          onClick={handleApplyClick}
+                          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                        >
                           Apply Now
                         </button>
                       </div>
@@ -160,6 +168,12 @@ const Placements = () => {
           )}
         </div>
       </div>
+
+      <RegistrationForm
+        isOpen={showRegistrationForm}
+        onClose={() => setShowRegistrationForm(false)}
+        formType="placement"
+      />
     </div>
   );
 };

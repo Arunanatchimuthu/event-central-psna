@@ -1,11 +1,12 @@
-
 import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { EventCard } from '../components/EventCard';
 import { SearchBar } from '../components/SearchBar';
 import { QuickActions } from '../components/QuickActions';
 import { NotificationPanel } from '../components/NotificationPanel';
-import { Calendar, Users, BookOpen, Trophy } from 'lucide-react';
+import { RegistrationForm } from '../components/RegistrationForm';
+import { EventDetails } from '../components/EventDetails';
+import { Calendar, Users, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const mockEvents = [
@@ -63,6 +64,13 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  const [registrationFormType, setRegistrationFormType] = useState<'event' | 'placement'>('event');
+  const [showEventDetails, setShowEventDetails] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  // Mock user state - in real app, this would come from authentication
+  const [isUserSignedIn, setIsUserSignedIn] = useState(false);
 
   const categories = ['all', 'Workshop', 'Placement', 'Competition', 'Cultural'];
 
@@ -74,11 +82,20 @@ const Index = () => {
   });
 
   const stats = [
-    { icon: Calendar, label: "Upcoming Events", value: "18", color: "text-blue-600" },
-    { icon: Users, label: "Registered Students", value: "2,847", color: "text-green-600" },
-    { icon: BookOpen, label: "Active Clubs", value: "15", color: "text-purple-600" },
-    { icon: Trophy, label: "This Month", value: "8", color: "text-orange-600" }
+    { icon: Calendar, label: "Upcoming Events", value: "24", color: "text-blue-600" },
+    { icon: Users, label: "Registered Students", value: "3,247", color: "text-green-600" },
+    { icon: BookOpen, label: "Active Clubs", value: "18", color: "text-purple-600" }
   ];
+
+  const handleRegisterClick = (formType: 'event' | 'placement' = 'event') => {
+    setRegistrationFormType(formType);
+    setShowRegistrationForm(true);
+  };
+
+  const handleViewDetails = (event: any) => {
+    setSelectedEvent(event);
+    setShowEventDetails(true);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -101,9 +118,14 @@ const Index = () => {
               >
                 View All Events
               </Link>
-              <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-colors">
-                Sign Up for Updates
-              </button>
+              {!isUserSignedIn && (
+                <button 
+                  onClick={() => setIsUserSignedIn(true)}
+                  className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-colors"
+                >
+                  Sign Up for Updates
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -111,7 +133,7 @@ const Index = () => {
 
       {/* Stats Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           {stats.map((stat, index) => (
             <div key={index} className="bg-white rounded-lg shadow-lg p-6 text-center">
               <stat.icon className={`w-8 h-8 mx-auto mb-2 ${stat.color}`} />
@@ -145,7 +167,12 @@ const Index = () => {
               {filteredEvents.length > 0 ? (
                 <div className="grid gap-6">
                   {filteredEvents.map(event => (
-                    <EventCard key={event.id} event={event} />
+                    <EventCard 
+                      key={event.id} 
+                      event={event} 
+                      onRegister={() => handleRegisterClick('event')}
+                      onViewDetails={() => handleViewDetails(event)}
+                    />
                   ))}
                 </div>
               ) : (
@@ -197,6 +224,23 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      {/* Modals */}
+      <RegistrationForm
+        isOpen={showRegistrationForm}
+        onClose={() => setShowRegistrationForm(false)}
+        formType={registrationFormType}
+      />
+
+      <EventDetails
+        event={selectedEvent}
+        isOpen={showEventDetails}
+        onClose={() => setShowEventDetails(false)}
+        onRegister={() => {
+          setShowEventDetails(false);
+          handleRegisterClick('event');
+        }}
+      />
     </div>
   );
 };
