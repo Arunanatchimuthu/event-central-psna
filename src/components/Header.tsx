@@ -39,13 +39,20 @@ export const Header: React.FC<HeaderProps> = ({ onNotificationClick }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <div className="flex items-center">
+            <div className="flex items-center space-x-3">
               <div className="flex-shrink-0">
-                <Link to="/">
-                  <h1 className="text-2xl font-bold text-blue-900">
-                    Campus<span className="text-blue-600">Connect</span>
-                  </h1>
-                  <p className="text-xs text-gray-600">PSNA College of Engineering</p>
+                <Link to="/" className="flex items-center space-x-3">
+                  <img 
+                    src="https://i.postimg.cc/gchz86v1/IMG-20250711-WA0038.jpg" 
+                    alt="PSNA College Logo" 
+                    className="h-12 w-12 object-contain"
+                  />
+                  <div>
+                    <h1 className="text-2xl font-bold text-blue-900">
+                      Campus<span className="text-blue-600">Connect</span>
+                    </h1>
+                    <p className="text-xs text-gray-600">PSNA College of Engineering</p>
+                  </div>
                 </Link>
               </div>
             </div>
